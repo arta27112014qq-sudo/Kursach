@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Продажи холодильника | LAN Admin</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app">
+      <aside class="sidebar">
+        <h1>LAN Admin</h1>
+        <nav class="menu">
+          <a class="menu-link" href="reports.html">Отчеты</a>
+          <a class="menu-link" href="booking.html">Бронирование</a>
+          <a class="menu-link" href="pcs.html">Управление PC</a>
+          <a class="menu-link" href="fridge.html">Запасы холодильника</a>
+          <a class="menu-link active" href="sales.html">Продажи еды и пополнение</a>
+        </nav>
+      </aside>
+      <main class="content">
+        <h2>Продажи еды/напитков и пополнение</h2>
+        <p class="hint">Соберите заказ, при необходимости добавьте пополнение аккаунта ПК и выберите способ оплаты.</p>
+        <div class="sales-layout">
+          <div id="salesGroups"></div>
+          <aside class="panel checkout-panel">
+            <h3>Общий чек</h3>
+            <div id="cartItems" class="cart-items"></div>
+            <label>
+              Пополнение аккаунта (₽)
+              <input id="topupAmount" type="number" min="0" step="50" value="0" />
+            </label>
+            <label>
+              Компьютер для пополнения
+              <select id="topupPc"></select>
+            </label>
+            <label>
+              Способ оплаты
+              <select id="paymentMethod">
+                <option value="Наличка">Наличка</option>
+                <option value="Картой">Картой</option>
+              </select>
+            </label>
+            <p class="pc-time">Товары: <strong id="foodTotal">0 ₽</strong></p>
+            <p class="pc-time">Пополнение: <strong id="topupTotal">0 ₽</strong></p>
+            <p class="pc-time">Итого: <strong id="grandTotal">0 ₽</strong></p>
+            <button id="checkoutBtn">Провести оплату</button>
+            <p id="checkoutNote" class="pc-note">Чек пока пустой.</p>
+          </aside>
+        </div>
+      </main>
+    </div>
+    <script src="scripts/fridge-data.js"></script>
+    <script src="scripts/sales.js"></script>
+  </body>
+</html>

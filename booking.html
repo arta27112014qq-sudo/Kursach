@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Бронирование | LAN Admin</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app">
+      <aside class="sidebar">
+        <h1>LAN Admin</h1>
+        <nav class="menu">
+          <a class="menu-link" href="reports.html">Отчеты</a>
+          <a class="menu-link active" href="booking.html">Бронирование</a>
+          <a class="menu-link" href="pcs.html">Управление PC</a>
+          <a class="menu-link" href="fridge.html">Запасы холодильника</a>
+          <a class="menu-link" href="sales.html">Продажи еды и пополнение </a>
+        </nav>
+      </aside>
+      <main class="content">
+        <h2>Бронирование</h2>
+        <p class="hint">1 клетка = 30 минут. Таблица строится на 4 дня вперед.</p>
+        <div class="panel booking-panel">
+          <div class="booking-slider-wrap">
+            <label for="bookingScroll" class="hint">Прокрутка таблицы</label>
+            <input id="bookingScroll" class="booking-scroll" type="range" min="0" max="0" value="0" step="1" />
+          </div>
+          <div id="bookingGrid" class="booking-grid booking-window"></div>
+        </div>
+      </main>
+    </div>
+    <script src="scripts/booking.js"></script>
+  </body>
+</html>
