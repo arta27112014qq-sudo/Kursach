@@ -6,15 +6,17 @@ function formatRub(value) {
 
 function loadReport() {
   const raw = localStorage.getItem(REPORT_KEY);
-  if (!raw) return { pcRevenue: 0, fridgeRevenue: 0 };
+  if (!raw) return { pcRevenueCash: 0, pcRevenueCard: 0, fridgeRevenueCash: 0, fridgeRevenueCard: 0 };
   try {
     const parsed = JSON.parse(raw);
     return {
-      pcRevenue: Number(parsed.pcRevenue || 0),
-      fridgeRevenue: Number(parsed.fridgeRevenue || 0),
+      pcRevenueCash: Number(parsed.pcRevenueCash || 0),
+      pcRevenueCard: Number(parsed.pcRevenueCard || 0),
+      fridgeRevenueCash: Number(parsed.fridgeRevenueCash || 0),
+      fridgeRevenueCard: Number(parsed.fridgeRevenueCard || 0),
     };
   } catch (error) {
-    return { pcRevenue: 0, fridgeRevenue: 0 };
+    return { pcRevenueCash: 0, pcRevenueCard: 0, fridgeRevenueCash: 0, fridgeRevenueCard: 0 };
   }
 }
 
@@ -23,21 +25,19 @@ function saveReport(report) {
 }
 
 function renderRevenue(report) {
-  document.getElementById("pcRevenueTotal").textContent = formatRub(report.pcRevenue);
-  document.getElementById("fridgeRevenueTotal").textContent = formatRub(report.fridgeRevenue);
-  document.getElementById("dayTotal").textContent = formatRub(report.pcRevenue + report.fridgeRevenue);
+  const pcTotal = report.pcRevenueCash + report.pcRevenueCard;
+  const fridgeTotal = report.fridgeRevenueCash + report.fridgeRevenueCard;
+  const dayTotal = pcTotal + fridgeTotal;
+  
+  document.getElementById("pcRevenueTotal").textContent = formatRub(pcTotal);
+  document.getElementById("fridgeRevenueTotal").textContent = formatRub(fridgeTotal);
+  document.getElementById("dayTotal").textContent = formatRub(dayTotal);
 }
 
 const reportState = loadReport();
 renderRevenue(reportState);
 
-document.getElementById("pcRevenueInput").value = reportState.pcRevenue;
-document.getElementById("fridgeRevenueInput").value = reportState.fridgeRevenue;
-
-document.getElementById("revenueForm").addEventListener("submit", (event) => {
-  event.preventDefault();
-  reportState.pcRevenue = Number(document.getElementById("pcRevenueInput").value || 0);
-  reportState.fridgeRevenue = Number(document.getElementById("fridgeRevenueInput").value || 0);
-  saveReport(reportState);
-  renderRevenue(reportState);
-});
+document.getElementById("pcRevenueCashInput").value = reportState.pcRevenueCash;
+document.getElementById("pcRevenueCardInput").value = reportState.pcRevenueCard;
+document.getElementById("fridgeRevenueCashInput").value = reportState.fridgeRevenueCash;
+document.getElementById("fridgeRevenueCardInput").value = reportState.fridgeRevenueCard;

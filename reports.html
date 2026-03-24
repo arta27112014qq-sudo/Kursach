@@ -16,6 +16,7 @@
           <a class="menu-link" href="pcs.html">Управление PC</a>
           <a class="menu-link" href="fridge.html">Запасы холодильника</a>
           <a class="menu-link" href="sales.html">Продажи еды и пополнение</a>
+          <a class="menu-link" href="diagram.html">Диаграмма платежей</a>
         </nav>
       </aside>
       <main class="content">
@@ -35,17 +36,24 @@
           </article>
         </div>
         <div class="panel">
-          <h3>Внесение дневной выручки</h3>
+          <h3>Данные дневной выручки</h3>
           <form id="revenueForm" class="report-form">
             <label>
-              Аренда PC (₽)
-              <input id="pcRevenueInput" type="number" min="0" step="100" value="0" />
+              Аренда PC наличными (₽)
+              <input id="pcRevenueCashInput" type="number" min="0" step="100" value="0" readonly />
             </label>
             <label>
-              Продажи холодильника (₽)
-              <input id="fridgeRevenueInput" type="number" min="0" step="50" value="0" />
+              Аренда PC картой (₽)
+              <input id="pcRevenueCardInput" type="number" min="0" step="100" value="0" readonly />
             </label>
-            <button type="submit">Сохранить в отчет</button>
+            <label>
+              Продажи холодильника наличными (₽)
+              <input id="fridgeRevenueCashInput" type="number" min="0" step="50" value="0" readonly />
+            </label>
+            <label>
+              Продажи холодильника картой (₽)
+              <input id="fridgeRevenueCardInput" type="number" min="0" step="50" value="0" readonly />
+            </label>
           </form>
         </div>
       </main>

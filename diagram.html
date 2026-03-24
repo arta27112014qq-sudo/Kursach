@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Диаграмма платежей | LAN Admin</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body>
+    <div class="app">
+      <aside class="sidebar">
+        <h1>LAN Admin</h1>
+        <nav class="menu">
+          <a class="menu-link" href="reports.html">Отчеты</a>
+          <a class="menu-link" href="booking.html">Бронирование</a>
+          <a class="menu-link" href="pcs.html">Управление PC</a>
+          <a class="menu-link" href="fridge.html">Запасы холодильника</a>
+          <a class="menu-link" href="sales.html">Продажи еды и пополнение</a>
+          <a class="menu-link active" href="diagram.html">Диаграмма платежей</a>
+        </nav>
+      </aside>
+
+      <main class="content">
+        <h2>Диаграмма платежей и продаж</h2>
+        <p class="hint">Визуализация пополнений наличными, оплат картой и продаж еды</p>
+        
+        <div class="cards">
+          <article class="card">
+            <p>Пополнения наличными</p>
+            <h3 id="cashTotal">0 ₽</h3>
+          </article>
+          <article class="card">
+            <p>Оплаты картой</p>
+            <h3 id="cardTotal">0 ₽</h3>
+          </article>
+          <article class="card">
+            <p>Продажи еды</p>
+            <h3 id="foodTotal">0 ₽</h3>
+          </article>
+        </div>
+
+        <div class="panel">
+          <h3>Диаграмма по способам оплаты</h3>
+          <div style="position: relative; height: 400px; margin: 20px 0;">
+            <canvas id="paymentChart"></canvas>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h3>Динамика продаж по времени</h3>
+          <div style="position: relative; height: 400px; margin: 20px 0;">
+            <canvas id="timelineChart"></canvas>
+          </div>
+        </div>
+      </main>
+    </div>
+    <script src="scripts/diagram.js"></script>
+  </body>
+</html>
