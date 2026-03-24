@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Запасы холодильника | LAN Admin</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app">
+      <aside class="sidebar">
+        <h1>LAN Admin</h1>
+        <nav class="menu">
+          <a class="menu-link" href="reports.html">Отчеты</a>
+          <a class="menu-link" href="booking.html">Бронирование</a>
+          <a class="menu-link" href="pcs.html">Управление PC</a>
+          <a class="menu-link active" href="fridge.html">Запасы холодильника</a>
+          <a class="menu-link" href="sales.html">Продажи еды и пополнение</a>
+          <a class="menu-link" href="diagram.html">Диаграмма платежей</a>
+        </nav>
+      </aside>
+      <main class="content">
+        <h2>Оставшиеся запасы в холодильнике</h2>
+        <p class="hint">Указывайте пополнение в штуках, чтобы обновить остатки.</p>
+        <div class="panel">
+          <table class="stock-table">
+            <thead>
+              <tr>
+                <th>Товар</th>
+                <th>Категория</th>
+                <th>Остаток</th>
+                <th>Цена (₽)</th>
+                <th>Пополнить</th>
+                <th>Действие</th>
+              </tr>
+            </thead>
+            <tbody id="stockTableBody"></tbody>
+          </table>
+        </div>
+      </main>
+    </div>
+    <script src="scripts/fridge-data.js"></script>
+    <script src="scripts/fridge.js"></script>
+  </body>
+</html>
