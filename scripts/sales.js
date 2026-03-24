@@ -13,6 +13,65 @@ function formatRub(value) {
   return `${Number(value || 0).toLocaleString("ru-RU")} ₽`;
 }
 
+function updateReportFromSales(paymentMethod, foodTotal, topupAmount) {
+  const report = loadReport();
+  
+  if (foodTotal > 0) {
+    if (paymentMethod === 'Наличка') {
+      report.fridgeRevenueCash += foodTotal;
+    } else {
+      report.fridgeRevenueCard += foodTotal;
+    }
+  }
+  
+  if (topupAmount > 0) {
+    if (paymentMethod === 'Наличка') {
+      report.fridgeRevenueCash += topupAmount;
+    } else {
+      report.fridgeRevenueCard += topupAmount;
+    }
+  }
+  
+  saveReport(report);
+  
+  // Обновляем поля на странице отчета если она открыта
+  if (document.getElementById('pcRevenueCashInput')) {
+    document.getElementById('pcRevenueCashInput').value = report.pcRevenueCash;
+    document.getElementById('pcRevenueCardInput').value = report.pcRevenueCard;
+    document.getElementById('fridgeRevenueCashInput').value = report.fridgeRevenueCash;
+    document.getElementById('fridgeRevenueCardInput').value = report.fridgeRevenueCard;
+    
+    // Обновляем отображение totals
+    const pcTotal = report.pcRevenueCash + report.pcRevenueCard;
+    const fridgeTotal = report.fridgeRevenueCash + report.fridgeRevenueCard;
+    const dayTotal = pcTotal + fridgeTotal;
+    
+    document.getElementById("pcRevenueTotal").textContent = formatRub(pcTotal);
+    document.getElementById("fridgeRevenueTotal").textContent = formatRub(fridgeTotal);
+    document.getElementById("dayTotal").textContent = formatRub(dayTotal);
+  }
+}
+
+function loadReport() {
+  const raw = localStorage.getItem('lan-admin-report');
+  if (!raw) return { pcRevenueCash: 0, pcRevenueCard: 0, fridgeRevenueCash: 0, fridgeRevenueCard: 0 };
+  try {
+    const parsed = JSON.parse(raw);
+    return {
+      pcRevenueCash: Number(parsed.pcRevenueCash || 0),
+      pcRevenueCard: Number(parsed.pcRevenueCard || 0),
+      fridgeRevenueCash: Number(parsed.fridgeRevenueCash || 0),
+      fridgeRevenueCard: Number(parsed.fridgeRevenueCard || 0),
+    };
+  } catch (error) {
+    return { pcRevenueCash: 0, pcRevenueCard: 0, fridgeRevenueCash: 0, fridgeRevenueCard: 0 };
+  }
+}
+
+function saveReport(report) {
+  localStorage.setItem('lan-admin-report', JSON.stringify(report));
+}
+
 function renderPcSelect() {
   const select = document.getElementById("topupPc");
   const pcs = loadPcList();
@@ -152,6 +211,36 @@ function checkout() {
   document.getElementById("topupAmount").value = "0";
   const total = foodTotal + topupAmount;
   note.textContent = `Оплата проведена (${paymentMethod}). Итого: ${formatRub(total)}.`;
+  
+  // Сохраняем транзакцию для диаграммы
+  const transactions = JSON.parse(localStorage.getItem('transactions')) || [];
+  const now = new Date();
+  
+  if (foodTotal > 0) {
+    transactions.push({
+      type: 'food',
+      amount: foodTotal,
+      category: 'Напитки',
+      time: now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0'),
+      date: now.toISOString().split('T')[0]
+    });
+  }
+  
+  if (topupAmount > 0) {
+    transactions.push({
+      type: paymentMethod === 'Наличка' ? 'cash' : 'card',
+      amount: topupAmount,
+      category: null,
+      time: now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0'),
+      date: now.toISOString().split('T')[0]
+    });
+  }
+  
+  localStorage.setItem('transactions', JSON.stringify(transactions));
+  
+  // Обновляем отчет
+  updateReportFromSales(paymentMethod, foodTotal, topupAmount);
+  
   renderSales();
   renderCart();
 }
